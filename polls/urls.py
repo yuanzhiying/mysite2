@@ -8,6 +8,7 @@ __author__ = 'yuanzhiying'
 from django.urls import path
 from . import views
 
+app_name = 'pools'  # 命名空间，为了区分不同的app，以便{% url %}能找到对应app的url
 urlpatterns = [
     # /pools/
     path('', views.index, name='index'),
