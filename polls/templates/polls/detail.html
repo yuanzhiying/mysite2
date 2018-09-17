@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>detail</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 </head>
 <body>
 <h1>{{ question.question_text }}</h1>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'pools:vote' question.id %}" method="post">
+<form action="{% url 'polls:vote' question.id %}" method="post">
     {% csrf_token %}
 <!--
 解释：question.choice_set.all
