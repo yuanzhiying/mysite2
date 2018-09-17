@@ -10,7 +10,26 @@
 
 <form action="{% url 'pools:vote' question.id %}" method="post">
     {% csrf_token %}
+<!--
+解释：question.choice_set.all
+
+That's the Django metaclass magic in action!
+Since you have a foreign key from Choice model to the Question model,
+you will automagically get the inverse relation on instances of the question model back to the set of possible choices.
+question.choice_set.all is the queryset of choices which point to your question instance as the foreign key.
+The default name for this inverse relationship is choice_set (because the related model is named Choice).
+But you can override this default name by specifying the related_name kwarg on the foreign key:
+class Choice(models.Model):
+    ...
+    question = models.ForeignKey(Question, related_name='choices')
+-->
     {% for choice in question.choice_set.all %}
+    <!--
+        在每个`` {\% for %}``循环里有一个称为`` forloop`` 的模板变量。这个变量有一些提示循环进度信息的属性。
+        forloop.counter 总是一个表示当前循环的执行次数的整数计数器。
+        这个计数器是从1开始的，所以在第一次循环时 forloop.counter 将会被设置为1。
+    -->
+        <!-- 提交的表单的key为choice,value=choice.id -->
         <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
         <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br/>
     {% endfor %}
